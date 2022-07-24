@@ -4,7 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const Registration = () => {
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full">
       <div className=" p-4 large:p-10 w-full  ">
         <h1 className="text-xl mb-6 ">Current Statistics</h1>
         <div className="grid grid-cols-12 w-full gap-2 text-center medium:text-start">
@@ -39,12 +39,13 @@ const Registration = () => {
         </div>
       </div>
       <div className="pb-12">
-        <div className=" mx-4 large:mx-10 bg-white shadow-lg">
-          <div className="py-4">
-            <h1 className="text-center text-xl">Registration </h1>
-            <p className="text-center font-light text-sm">
+        <div className=" mx-4 large:mx-10 py-4 bg-white shadow-lg">
+          <div className="py-6">
+            <h1 className="text-center text-xl ">Registration </h1>
+            <p className="text-center mt-2 font-light text-sm">
               Click an option to begin registration
             </p>
+              </div>
             <div className=" grid grid-cols-12 w-full h-12 mt-4 items-center text-center">
               <NavLink
                 className={({ isActive }) =>
@@ -86,7 +87,6 @@ const Registration = () => {
                 Subject
               </NavLink>
             </div>
-          </div>
           <Outlet />
         </div>
       </div>

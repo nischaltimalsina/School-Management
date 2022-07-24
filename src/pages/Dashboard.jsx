@@ -1,11 +1,10 @@
 import React from 'react'
-import Curriculum from '../features/common/Curriculum'
-// import Calendar from '../components/common/Calendar'
+import AdminDash from '../features/admin/AdminDash'
 
 const Dashboard = () => {
   return (
-    <div>
-<Curriculum/>
+    <div className='p-4'>
+      <AdminDash/>
     </div>
     
   )

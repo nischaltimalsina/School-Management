@@ -11,7 +11,7 @@ const Login = () => {
       e.preventDefault();
       
       try {
-        
+        setAuth()
       } catch (error) {
         
       }

@@ -1,8 +1,11 @@
 import React from 'react'
+import AdminReports from '../features/admin/AdminReports'
 
 const Overview = () => {
   return (
-    <div>Overview</div>
+    <div className='p-6'>
+      <AdminReports/>
+    </div>
   )
 }
 

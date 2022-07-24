@@ -19,6 +19,7 @@ import {
   ClassRegister,
   SubjectRegister,
 } from "./features/admin/RegistrationManager";
+import Overview from "./pages/Overview";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoutes />}>
           <Route exact path="/" element={<Dashboard />} />
+          <Route exact path="/overview" element={<Overview />} />
           <Route path="/profile" element={<StudentProfile />} />
           <Route path="/registration" element={<Registration />}>
             <Route path="student" element={<StudentRegister />} />

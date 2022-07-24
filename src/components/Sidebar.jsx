@@ -1,191 +1,130 @@
-import React, { useState, Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import Profile from "../assets/profile.png";
+import React, { useState } from "react";
 import { IoIosClose, IoIosMenu } from "react-icons/io";
-import { NavLink } from 'react-router-dom';
-import user from "../services/userAuthentication"
+import { NavLink } from "react-router-dom";
+import user from "../services/userAuthentication";
+import {
+  AdminNavOptions,
+  StaffNavOptions,
+  StudentNavOptions,
+} from "./navMenuItems";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const role = user.role;
 
-  const AdminNavOptions = [
-    {id:"001", url:"/",label:"Dashboard"},
-    {id:"002", url:"/overview",label:"Overview"},
-    {id:"003", url:"/modules",label:"Modules"},
-    {id:"004", url:"/registration",label:"Registration"},
-    {id:"005", url:"/courses",label:"Courses"},
-    {id:"006", url:"/finance",label:"Finance"},
-    {id:"007", url:"/profile",label:"Profile"},
-    {id:"008", url:"/settings",label:"Settings"},
-  ]
-  const StaffNavOptions = [
-    {id:"011", url:"/", label:"Dashboard"},
-    {id:"012", url:"/attendance", label:"Attendance"},
-    {id:"013", url:"/time-table", label:"Timetable"},
-    {id:"014", url:"/courses", label:"Courses"},
-    {id:"015", url:"/overview", label:"Overview"},
-    {id:"016", url:"/questions", label:"/questions"},
-    {id:"017", url:"/profile", label:"Profile"},
-  ]
-
-  const StudentNavOptions =[
-    {id:"021", url:"/", label:"Dashboard"},
-    {id:"022", url:"/time-table", label:"Timetable"},
-    {id:"023", url:"/courses", label:"Courses"},
-    {id:"024", url:"/overview", label:"Overview"},
-    {id:"025", url:"finance", label:"Finance"},
-    {id:"026", url:"/profile", label:"Profile"},
-  ]
-  
-  
   let NavOptions = [];
 
-if (user.role === "ADMIN"){
-    NavOptions =[ ...AdminNavOptions]
+  if (role === "ADMIN") {
+    NavOptions = [...AdminNavOptions];
+  } else if (role === "STAFF") {
+    NavOptions = [...StaffNavOptions];
+  } else if (role === "STUDENT") {
+    NavOptions = [...StudentNavOptions];
   }
-else if(user.role === "STAFF"){
-    NavOptions =[ ...StaffNavOptions]
-  }
-else if(user.role === "STUDENT"){
-    NavOptions = StudentNavOptions
-}
 
-  return  (
+  return (
     <>
       <div
-        className={`relative h-[100vh] top-0 left-0  bg-white/90 shadow-md shadow-gray-300/10  ${
-          !isOpen ? "-translate-x-full ease-out`" : "ease-out"
-        } w-full medium:w-[350px] z-10   duration-500`}
-        
+        className={`relative h-[100vh] top-0 left-0 bg-white border-r text-gray-600  
+        ${
+          !isOpen
+            ? "w-24 -translate-x-full medium:translate-x-0"
+            : "w-full medium:w-64 "
+        }  z-10  duration-300 extraLarge:w-64`}
       >
-        <div className="p-4 h-16 flex justify-between bg-white  ">
-          <h1 className="text-lg font-light ">Service Owl Inc.</h1>
+        <div className="p-4 h-16 flex justify-end">
           {isOpen ? (
             <button
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
-             
             >
               <IoIosClose size={40} />
             </button>
           ) : (
             <button
-              className="absolute top-0 left-full p-2 z-30"
+              className="fixed top-0 left-full medium:left-auto p-2 z-30 extraLarge:hidden"
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
             >
-              <IoIosMenu size={40} />
+              <IoIosMenu className="" size={40} />
             </button>
           )}
         </div>
-        <div>
-            <ul>
-              {NavOptions.map((nav)=>( <li key={nav.id}>
-                <NavLink to={nav.url}> {nav.label}</NavLink>
-              </li>))
-             }
-            </ul>
-        </div>
-        <div className="absolute bottom-0 p-4">
-          <Dropdown />
+        <div
+          className={` mt-32 bottom-0 h-[calc(100vh-12rem)]  overflow-x-hidden overflow-y-scroll `}
+        >
+          <ul className={`${!isOpen ?"space-y-0":"space-y-3"} extraLarge:space-y-3`}>
+            {NavOptions.map((nav) => (
+              <li key={nav.id} className="">
+                <NavLink
+                  to={nav.url}
+                  className={({ isActive }) =>
+                  [
+                    `flex items-center ${isOpen?"justify-start":"justify-center"} space-x-4 font-light p-3 extraLarge:justify-start  `,
+                    isActive
+                      ? " border-green-600  bg-gray-200 text-gray-600 ease-linear duration-300 shadow-inner drop-shadow-lg"
+                      : "border-transparent ",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")
+                }
+                >
+                   <div
+                      className={`flex items-center gap-3 
+                      ${!isOpen ? "justify-center flex-col " : "font-light text-lg "}
+                     extraLarge:flex-row extraLarge:text-lg `}
+                    >
+                      <div className={`${!isOpen ? "text-2xl" : "ml-8 text-2xl"} extraLarge:ml-8 extraLarge:text-2xl`}>
+                        {nav.icon}
+                      </div>
+                      <p className={` ${!isOpen ? "text-xs font-light" : " text-sm "} extraLarge:text-sm `}>
+                        {nav.label}
+                      </p>
+                    </div>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
-   )
+  );
 };
 
 export default Sidebar;
 
-function Dropdown() {
-  return (
-    <div className=" text-right">
-      <Menu as="div" className="relative inline-block text-left">
-        <div>
-          <Menu.Button className=" h-10 w-10  rounded-full   text-sm font-medium text-white hover:brightness-50 duration-200 ">
-            <img
-              src={Profile}
-              alt="SOWL"
-              className=" h-full w-full object-cover"
-            />
-          </Menu.Button>
-        </div>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-400"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute left-14 bottom-4 mt-3 w-36 origin-top-right divide-y divide-gray-200  bg-gray-100 shadow-lg  focus:outline-none">
-            <div className=" ">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-gray-500/50 text-white" : "text-gray-900"
-                    } group flex w-full items-center  px-4 py-2 text-sm`}
-                  >
-                    Edit
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-gray-500/50 text-white" : "text-gray-900"
-                    } group flex w-full items-center  px-4 py-2 text-sm`}
-                  >
-                    Duplicate
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-            <div className="">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-gray-500/50 text-white" : "text-gray-900"
-                    } group flex w-full items-center  px-4 py-2 text-sm`}
-                  >
-                    Archive
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-gray-500/50 text-white" : "text-gray-900"
-                    } group flex w-full items-center  px-4 py-2 text-sm`}
-                  >
-                    Move
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-            <div className="">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-gray-500/50 text-white" : "text-gray-900"
-                    } group flex w-full items-center  px-4 py-2 text-sm`}
-                  >
-                    Delete
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    </div>
-  );
-}
+/*   {NavOptions.map((nav) => (
+              <li key={nav.id} className="h-full w-full">
+                <NavLink
+                  to={nav.url}
+                  className={({ isActive }) => (isActive ? "border w-full" : "")}
+                >
+                  <div className="h-12 w-full">
+                    <div
+                      className={`flex items-center gap-3
+                      ${!isOpen ? "justify-center flex-col " : "font-light text-lg "}
+                     `}
+                    >
+                      <div className={`${!isOpen ? "text-3xl" : "text-2xl"}`}>
+                        {nav.icon}
+                      </div>
+                      <p className={` ${!isOpen ? "text-xs font-light" : " "} `}>
+                        {nav.label}
+                      </p>
+                    </div>
+                    <div>
+                      <span
+                        className={` ${
+                          !isOpen ? "hidden" : " text-xs font-thin"
+                        } `}
+                      >
+                        {nav.span}
+                      </span>
+                    </div>
+                  </div>
+                </NavLink>
+              </li>
+            ))} */

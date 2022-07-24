@@ -1,2 +1,4 @@
-const  user=[{name:"ADMIN", role:"ADMIN" }]
+const  user={name:"ADMIN", role:"ADMIN" }
 export default user;
+
+

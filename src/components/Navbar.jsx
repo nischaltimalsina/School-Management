@@ -6,7 +6,7 @@ const Navbar = () => {
       <div className="flex w-full justify-end p-3">
     
         
-          <h1 className="text-xl font-light ml-14">Service Owl Inc.</h1>
+          <h1 className="text-xl text-gray-600 font-light ml-14">Service Owl Inc.</h1>
  
         <div className='flex items-center gap-3'>
         

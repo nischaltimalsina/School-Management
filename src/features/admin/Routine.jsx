@@ -9,7 +9,7 @@ const Routine = () => {
       </h1>
       <p className="font-light">Select an option to continue:</p>
       <div>
-        <NavLink to="/routine/slot-criteria">Set up Routine Slots</NavLink>
+        <NavLink to="/time-table/slot-criteria">Set up Routine Slots</NavLink>
       </div>
       <Outlet />
     </div>
@@ -19,13 +19,14 @@ const Routine = () => {
 export default Routine;
 
 export const RoutineSlot = () => {
+
   const [slot, setSlot] = useState({
     startTime: "",
     sessionDuration: "",
     breakDuration: "",
     routineLevel: "",
   });
-  const [dayOff, setDayOff] = useState([]);
+  const [off, setOff] = useState({dayOff:[]});
 
   let name, value;
 
@@ -35,13 +36,17 @@ export const RoutineSlot = () => {
     setSlot({ ...slot, [name]: value });
   };
 
-  const handleDayOff = (e) => {
+  const handleOff = (e) => {
     name = e.target.name;
     let value = Array.from(e.target.selectedOptions, (option) => option.value);
-    setDayOff(value);
+    setOff({[name]:value});
   };
 
-  // const {startTime, sessionDuration,breakDuration, routineLevel} =slot
+  // let data = {...slot,...off}
+
+  // const {startTime, sessionDuration,breakDuration, routineLevel, dayOff} = data
+
+
 
 
   return (
@@ -150,8 +155,8 @@ export const RoutineSlot = () => {
               min={10}
               id="dayOff"
               name="dayOff"
-              value={dayOff}
-              onChange={handleDayOff}
+              value={off.dayOff}
+              onChange={handleOff}
               multiple={true}
             >
               <option className="h-8  items-center flex px-4" value="sunday">
